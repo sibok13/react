@@ -1,5 +1,9 @@
 .App {
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .App-logo {
@@ -35,4 +39,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.myForm {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 50px;
+  background-color: lightgray;
+}
+
+.myForm input {
+  margin: 0 10px;
 }
