@@ -1,50 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
-// import {Form} from './components/Form/Form'
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { v4 as uuid } from 'uuid';
+import Messages from './components/Messages';
+import Chats from './components/Chats';
 
 function App() {
+
+  const inputRef = useRef(null);
 
   const [formMessage, setMessage] = useState([]);
 
   const sendMessge = (event) => {
       event.preventDefault();
-      setMessage(old => [...old, {
+      setMessage(formMessage => [...formMessage, {
+          id: uuid().slice(0,8),
           author: event.target.athor.value,
           text: event.target.text.value,
       }]);
-      console.log(formMessage);
+      const form = event.target;
+      form.reset();
   }
+
+  const [chatsList, setChatsList] = useState([
+    {
+      id: 1,
+      name: 'Общий чат',
+    },
+    {
+      id: 2,
+      name: 'Закрытый чат',
+    }
+  ]);
 
   let lastName = formMessage.length > 0 ? formMessage.slice(-1).pop().author : null;
 
   useEffect(() => {
-    if(!!lastName) {
+    if(!!lastName & lastName !== "ROBOT") {
       setTimeout(() => {
-        alert('ROBOT: Привет, ' + lastName + '!');
+        setMessage(formMessage => [...formMessage, {
+          id: uuid().slice(0,8),
+          author: "ROBOT",
+          text: "Привет!",
+      }]);
       }, 3000);
     };
     }, [lastName]);
 
+    useEffect(() => {
+      inputRef.current.focus();
+      }, []);
+
   return (<>
     <div className="App">
-        <div class="messages">
-          {formMessage.map((elm, key) => 
-              <div key={key}>
-                  <div>Имя: {elm.author}</div>
-                  <div>Сообщение: {elm.text}</div>
-                  <hr />
-              </div>
-          )}
+        <div className="main-window">
+          <div className="chats-list">
+            <h3>Список чатов</h3>
+            <Chats chatsList={chatsList} />
+          </div>
+          <div className="messages">
+            <Messages formMessage={formMessage} />
+          </div>
         </div>
-        <div>
-            <form onSubmit={sendMessge} class="myForm">
-                <input name='athor' type='text' placeholder='Имя' />
-                <input name='text' type='text' placeholder='Сообщение' />
-                <button>Отправить</button>
+        <div className="form-box">
+            <form onSubmit={sendMessge} className="my-form">
+                <TextField autoFocus ref={inputRef} id="outlined-basic" label="Имя" variant="filled" name='athor' type='text' />
+                <TextField id="outlined-basic" label="Сообщение" variant="filled" name='text' type='text' />
+                <Button type="submit" variant="contained">Отправить</Button>
             </form>
         </div>
     </div>
-    {/* {Form} */}
     </>
   );
 }
