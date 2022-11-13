@@ -21,6 +21,7 @@ function App() {
       }]);
       const form = event.target;
       form.reset();
+      focus();
   }
 
   const [chatsList, setChatsList] = useState([
@@ -48,8 +49,12 @@ function App() {
     };
     }, [lastName]);
 
-    useEffect(() => {
+    function focus() {
       inputRef.current.focus();
+    }
+
+    useEffect(() => {
+      focus();
       }, []);
 
   return (<>
@@ -65,7 +70,7 @@ function App() {
         </div>
         <div className="form-box">
             <form onSubmit={sendMessge} className="my-form">
-                <TextField autoFocus ref={inputRef} id="outlined-basic" label="Имя" variant="filled" name='athor' type='text' />
+                <TextField  inputRef={inputRef} id="outlined-basic" label="Имя" variant="filled" name='athor' type='text' />
                 <TextField id="outlined-basic" label="Сообщение" variant="filled" name='text' type='text' />
                 <Button type="submit" variant="contained">Отправить</Button>
             </form>
