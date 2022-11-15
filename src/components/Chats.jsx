@@ -4,6 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import CommentIcon from '@mui/icons-material/Comment';
 import IconButton from '@mui/material/IconButton';
+import { Link } from "react-router-dom";
 
 function Chats(props) {
   return (
@@ -18,7 +19,7 @@ function Chats(props) {
             </IconButton>
           }
         >
-          <a href={`${elm.id}`}><ListItemText primary={`${elm.name}`} /></a>
+          <Link to={`/chats/${elm.id}`}><ListItemText primary={`${elm.name}`} /></Link>
         </ListItem>
       ))}
     </List>
