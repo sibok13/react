@@ -18,7 +18,7 @@ function Chats(props) {
             </IconButton>
           }
         >
-          <ListItemText primary={`${elm.name}`} />
+          <a href={`${elm.id}`}><ListItemText primary={`${elm.name}`} /></a>
         </ListItem>
       ))}
     </List>
