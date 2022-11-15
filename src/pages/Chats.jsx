@@ -15,14 +15,11 @@ function ChatsPage() {
 
   const sendMessge = (event) => {
       event.preventDefault();
+      chatId = event.target.id;
       setMessage(formMessage => [...formMessage, {
-          chatId: 0,
-          messeges: {
             id: uuid().slice(0,8),
             author: event.target.athor.value,
             text: event.target.text.value,
-            chatId: 0,
-        },
       }]);
       const form = event.target;
       form.reset();
@@ -33,10 +30,12 @@ function ChatsPage() {
     {
       id: 0,
       name: 'Общий чат',
+      messeges: [],
     },
     {
       id: 1,
       name: 'Закрытый чат',
+      messeges: [],
     }
   ]);
 
@@ -76,12 +75,12 @@ function ChatsPage() {
             <Chats chatsList={chatsList} />
           </div>
           <div className="messages">
-            {chatsList[chatId].name}
+            <h3>{chatsList[chatId].name}</h3>
             <Messages formMessage={formMessage} />
           </div>
         </div>
         <div className="form-box">
-            <form onSubmit={sendMessge} className="my-form">
+            <form onSubmit={sendMessge} className="my-form" id={chatId}>
                 <TextField  inputRef={inputRef} id="outlined-basic" label="Имя" variant="filled" name='athor' type='text' />
                 <TextField id="outlined-basic" label="Сообщение" variant="filled" name='text' type='text' />
                 <Button type="submit" variant="contained">Отправить</Button>

@@ -2,9 +2,9 @@ function Messages(props) {
     return (
         <>
           {props.formMessage.map((elm) => 
-              <div key={elm.messeges.id}>
-                  <div>Имя: {elm.messeges.author}</div>
-                  <div>Сообщение: {elm.messeges.text}</div>
+              <div key={elm.id}>
+                  <div>Имя: {elm.author}</div>
+                  <div>Сообщение: {elm.text}</div>
                   <hr />
               </div>
           )}
