@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 function HomePage() {
     return (<>
     <h2>Добро пожаловать на наш сайт!</h2>
     <ul>
-      <li><a href="/chats">Страница чатов</a></li>
-      <li><a href="/profile">Мой профиль</a></li>
+      <li><Link to="/chats/0">Страница чатов</Link></li>
+      <li><Link to="/profile/">Мой профиль</Link></li>
     </ul>
     </>
   );

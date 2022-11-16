@@ -1,7 +1,7 @@
 function Messages(props) {
     return (
         <>
-          {props.formMessage.map((elm) => 
+          {props.MessagesList[props.ChatId].messeges.map((elm) => 
               <div key={elm.id}>
                   <div>Имя: {elm.author}</div>
                   <div>Сообщение: {elm.text}</div>
