@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function Profile() {
-  const { showName, name } = useSelector((store) => store);
+  const { showName, name } = useSelector((store) => store.showNameParam);
   const dispatch = useDispatch();
 
   const setShowName = (event) => {
-    event.preventDefault()
     const dataInput = {
-      showName: showName,
+      showName: handleChange(),
     }
-    dispatch({ type: 'SET_POST', payload: dataInput })
+    dispatch({ type: 'SET_PARAM', payload: dataInput })
   }
+
+  const handleChange = () => {
+    return (!showName);
+  };
 
 return (
   <div>
