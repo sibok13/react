@@ -1,10 +1,12 @@
 function Messages(props) {
+    const messList = props.messList;
+
     return (
         <>
-          {props.MessagesList[props.ChatId].messeges.map((elm) => 
-              <div key={elm.id}>
-                  <div>Имя: {elm.author}</div>
-                  <div>Сообщение: {elm.text}</div>
+          {Object.keys(messList).map((id) =>
+              <div key={id}>
+                  <div>Имя: {messList[id].author}</div>
+                  <div>Сообщение: {messList[id].text}</div>
                   <hr />
               </div>
           )}

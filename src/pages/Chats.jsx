@@ -1,102 +1,77 @@
 import { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { v4 as uuid } from 'uuid';
 import Messages from './../components/Messages';
 import Chats from './../components/Chats';
 import { useParams } from "react-router";
 
-function ChatsPage() {
+import { useDispatch, useSelector } from 'react-redux';
 
-  const inputRef = useRef(null);
-  const params = useParams();
+const ChatsPage = () => {
+  const refMessageText = useRef(null);
+  const chats = useSelector(state => state.chats.chats);
+  const dispatch = useDispatch();
 
-  const [chatsList, setChatsList] = useState([
-    {
-      id: 0,
-      name: 'Общий чат',
-      messeges: [],
-    },
-    {
-      id: 1,
-      name: 'Закрытый чат',
-      messeges: [],
-    }
-  ]);
+  const [messageText, setMessageText] = useState('');
+  const [messageAuthor, setMessageAuthor] = useState('');
+  const [nameNewChat, setNameNewChat] = useState('');
 
-  const sendMessges = (event) => {
-    event.preventDefault();
-    chatId = event.target.id;
-    setChatsList(
-      chatsList => {
-        const chatsListNew = [...chatsList];
-        chatsListNew[chatId].messeges = 
-          [...chatsListNew[chatId].messeges, {
-              id: uuid().slice(0,8),
-              author: event.target.athor.value,
-              text: event.target.text.value,
-        }]
-        return chatsListNew;
-      }
-    );
-    const form = event.target;
-    form.reset();
-    focus();
+  let { chatId } = useParams();
+  let index = chats.findIndex(el => el.id === +chatId);
+  if (!chats[index]) {
+      index = 0;
   }
 
-  // определение id чата, для дальнейшей работы с ним
-  let chatId = params.chatId;
-  let index = chatsList.findIndex(el => el.id == chatId);
-  if(index < 0){
-    chatId = 0;
+  function sendMessage() {
+      dispatch({ type: 'addMessage', index: index, messageText: messageText, messageAuthor: messageAuthor })
+      setMessageText('');
+      setMessageAuthor('');
+      focusFieldMessage();
   }
- 
-  let lastName = chatsList[chatId].messeges.length > 0 ? chatsList[chatId].messeges.slice(-1).pop().author : null;
+
+  useEffect(() => {
+      focusFieldMessage();
+  }, []);
+
+  let lastName = chats[index].messages.length > 0 ? chats[index].messages.slice(-1).pop().author : null;
   useEffect(() => {
     if(!!lastName & lastName !== "ROBOT") {
       setTimeout(() => {
-        setChatsList(
-          chatsList => {
-            const chatsListNew = [...chatsList];
-            chatsListNew[chatId].messeges = 
-              [...chatsListNew[chatId].messeges, {
-                  id: uuid().slice(0,8),
-                  author: "ROBOT",
-                  text: "Привет, как дела?",
-            }]
-            return chatsListNew;
-          }
-        );
+        dispatch({ type: 'addMessage', index: index, messageText: "Привет, " + lastName + ", как дела?", messageAuthor: "ROBOT"})
       }, 3000);
     };
-    }, [lastName, chatId]);
+    }, [lastName, index]);
 
-    function focus() {
-      inputRef.current.focus();
-    }
-
-    useEffect(() => {
-      focus();
-      }, []);
+  function focusFieldMessage() {
+      refMessageText.current.focus();
+  }
 
   return (<>
     <div className="App">
         <div className="main-window">
           <div className="chats-list">
             <h3>Список чатов</h3>
-            <Chats chatsList={chatsList} />
+            <Chats chatList={chats} />
+            <div>
+            <TextField id="outlined-basic" label="Название чата" variant="outlined" size="small"
+                    value={nameNewChat} onChange={(event) => setNameNewChat(event.target.value)} />
+            </div>
+            <br />
+            <div>
+                <Button variant="contained" onClick={() => dispatch({ type: 'addChat', payload: nameNewChat })}>Новый чат</Button>
+            </div>
           </div>
           <div className="messages">
-            <h3>{chatsList[chatId].name}</h3>
-            <Messages MessagesList={chatsList} ChatId={chatId} />
+            <h3>{chats[index].name} чат</h3>
+            <Messages messList={chats[index].messages} index={index} />
           </div>
         </div>
         <div className="form-box">
-            <form onSubmit={sendMessges} className="my-form" id={chatId}>
-                <TextField  inputRef={inputRef} id="outlined-basic" label="Имя" variant="filled" name='athor' type='text' />
-                <TextField id="outlined-basic" label="Сообщение" variant="filled" name='text' type='text' />
-                <Button type="submit" variant="contained">Отправить</Button>
-            </form>
+          <TextField id="outlined-basic" label="Автор" variant="outlined" size="small"
+                              value={messageAuthor} onChange={(event) => setMessageAuthor(event.target.value)} />
+          <TextField inputRef={refMessageText}
+                              value={messageText} onChange={(event) => setMessageText(event.target.value)} />
+          <Button type="submit" variant="contained" onClick={(e) => sendMessage()}>Отправить</Button>
         </div>
     </div>
     </>

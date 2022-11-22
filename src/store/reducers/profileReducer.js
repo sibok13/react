@@ -1,4 +1,7 @@
-import {initState} from '../iniState'
+export const initState = {
+    showName: true,
+    name: 'Default'
+    }
 
 export const mainReducer = (state = initState, action) => {
     const {type, payload} = action;

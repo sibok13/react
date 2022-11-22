@@ -7,11 +7,14 @@ import IconButton from '@mui/material/IconButton';
 import { Link } from "react-router-dom";
 
 function Chats(props) {
+  //console.log(props)
+  const chatsList = props.chatList;
+
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {props.chatsList.map((elm) => (
+      {Object.keys(chatsList).map((id) =>
         <ListItem
-          key={elm.id}
+          key={id}
           disableGutters
           secondaryAction={
             <IconButton aria-label="comment">
@@ -19,9 +22,9 @@ function Chats(props) {
             </IconButton>
           }
         >
-          <Link to={`/chats/${elm.id}`}><ListItemText primary={`${elm.name}`} /></Link>
+          <Link to={`/chats/${chatsList[id].id}`}><ListItemText primary={`${chatsList[id].name}`} /></Link>
         </ListItem>
-      ))}
+      )}
     </List>
   );
 }
