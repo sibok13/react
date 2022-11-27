@@ -1,5 +1,1 @@
-const ACTION = "ACTION";
-
-export const exampleAction = {
-    type: ACTION
-}
+export const ADD_MESSAGE = "ADD_MESSAGE";
