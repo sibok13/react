@@ -27,7 +27,7 @@ const ChatsPage = () => {
         type: 'addMessage', 
         index: index, 
         messageText: messageText, 
-        messageAuthor: messageAuthor 
+        messageAuthor: messageAuthor,
       })
       setMessageText('');
       setMessageAuthor('');
@@ -37,25 +37,6 @@ const ChatsPage = () => {
   useEffect(() => {
       focusFieldMessage();
   }, []);
-
-  let lastName = chats[index].messages.length > 0 ? chats[index].messages.slice(-1).pop().author : null;
-  
-  function robotAnswer() {
-    dispatch({ 
-      type: 'addMessage', 
-      index: index, 
-      messageText: "Привет, " + lastName + ", как дела?", 
-      messageAuthor: "ROBOT"
-    })
-  }
-
-  useEffect(() => {
-    if(!!lastName & lastName !== "ROBOT") {
-      setTimeout(() => {
-        robotAnswer()
-      }, 3000);
-    };
-    }, [lastName, index]);
 
   function focusFieldMessage() {
       refMessageText.current.focus();

@@ -34,12 +34,10 @@ export const chatsReducer = (state = initState, action) => {
             }
 
         case 'addMessage': {
-
             const newId = lastId(state.chats[action.index].messages);
-
             const messageObj = { id: newId, text: action.messageText, author: action.messageAuthor };
-
             const newChats = [...state.chats];
+
             newChats[action.index].messages.push(messageObj);
 
             return {
