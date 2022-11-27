@@ -1,9 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, /*compose*/ } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer } from './reducers/rootReducer';
-import thunk from 'redux-thunk';
+//import thunk from 'redux-thunk';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const robotAnswer = store => next => (action) => {
     if (action?.messageAuthor !== "ROBOT")
@@ -18,7 +20,16 @@ const robotAnswer = store => next => (action) => {
   return next(action)
 }
 
+const config = {
+  key: "root",
+  storage
+}
+
+const persistedReducer = persistReducer(config, rootReducer);
+
 export const store = createStore(
-  rootReducer,
+  persistedReducer,
   composeWithDevTools(applyMiddleware(robotAnswer))
 );
+
+export const persist = persistStore(store);
