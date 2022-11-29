@@ -6,6 +6,7 @@ function HomePage() {
     <ul>
       <li><Link to="/chats/0">Страница чатов</Link></li>
       <li><Link to="/profile/">Мой профиль</Link></li>
+      <li><Link to="/cats/">Котики</Link></li>
     </ul>
     </>
   );
