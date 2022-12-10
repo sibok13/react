@@ -1,54 +1,41 @@
-const initState = {
-    chats:
-        [
-            {
-                id: 1,
-                name: 'Общий',
-                messages: [],
-            },
-            {
-                id: 2,
-                name: 'Закрытый',
-                messages: [],
-            }
-        ]
+import { CHANGE_MESSAGES, CHANGE_CHATS } from "../actionTypes";
+
+
+const initialState = {
+    messages: { messages: [] },
+    chats: { chats: [] },
 }
 
-function lastId(array) {
-    let lastId = array.length > 0 ? array[array.length - 1].id : 1;
-    return ++lastId;
-}
 
-export const chatsReducer = (state = initState, action) => {
+
+export const messagesReducer = (state = initialState, action) => {
     switch (action.type) {
-
-        case 'addChat':
-            const obj = {
-                id: lastId(state.chats),
-                name: action.payload,
-                messages: [],
+        case CHANGE_MESSAGES: {
+            return {
+                ...state,
+                messages: {
+                    ...state.messages,
+                    [action.payload.chatId]: action.payload.messages,
+                },
             };
-            return {
-                ...state,
-                chats: [...state.chats, obj],
-            }
-
-        case 'addMessage': {
-
-            const newId = lastId(state.chats[action.index].messages);
-
-            const messageObj = { id: newId, text: action.messageText, author: action.messageAuthor };
-
-            const newChats = [...state.chats];
-            newChats[action.index].messages.push(messageObj);
-
-            return {
-                ...state,
-                chats: newChats
-            }
         }
-
         default:
-            return state
+            return state;
+    }
+};
+
+export const chatsReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case CHANGE_CHATS: {
+            return {
+                ...state,
+                chats: {
+                    ...state.chats,
+                    chats: action.payload.chats,
+                },
+            };
+        }
+        default:
+            return state;
     }
 };

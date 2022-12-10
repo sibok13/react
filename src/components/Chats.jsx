@@ -1,32 +1,25 @@
-import * as React from 'react';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import CommentIcon from '@mui/icons-material/Comment';
-import IconButton from '@mui/material/IconButton';
 import { Link } from "react-router-dom";
+import ListItem from '@mui/material/ListItem';
 
-function Chats(props) {
-  //console.log(props)
-  const chatsList = props.chatList;
+function ChatList(props) {
 
-  return (
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {Object.keys(chatsList).map((id) =>
-        <ListItem
-          key={id}
-          disableGutters
-          secondaryAction={
-            <IconButton aria-label="comment">
-              <CommentIcon />
-            </IconButton>
-          }
-        >
-          <Link to={`/chats/${chatsList[id].id}`}><ListItemText primary={`${chatsList[id].name}`} /></Link>
-        </ListItem>
-      )}
-    </List>
-  );
+    const chatsList = props.chatsList.chats;
+
+    if (chatsList === undefined) {
+        return (<></>);
+    }
+
+    return (
+        <List>
+            {Object.keys(chatsList).map((id) =>
+                <ListItem key={id}>
+                    <Link to={`/chats-2/${chatsList[id].id}`}>{chatsList[id].name}</Link>
+                </ListItem>
+            )}
+        </List>
+    );
+
 }
 
-export default Chats;
+export default ChatList;
