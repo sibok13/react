@@ -19,9 +19,16 @@ const ChatPage = () => {
     const refMessageText = useRef(null);
 
     const chatsList = useSelector((state) => state.chats.chats);
-    const messageList = useSelector((state) => state.chats.messages);
-    const messages = messageList.messages[chatId];
+    const messageList = useSelector((state) => state.messages.messages);
 
+
+    // Проверка наличия сообщений
+    let messages = [];
+    if (messageList.messages !== null) {
+       messages = messageList.messages[chatId];
+    } 
+
+    
     const [messageText, setMessageText] = useState('');
     const [messageAuthor, setMessageAuthor] = useState('User');
     const [nameNewChat, setNameNewChat] = useState('');

@@ -1,12 +1,9 @@
 import { CHANGE_MESSAGES, CHANGE_CHATS } from "../actionTypes";
 
-
 const initialState = {
     messages: { messages: [] },
     chats: { chats: [] },
 }
-
-
 
 export const messagesReducer = (state = initialState, action) => {
     switch (action.type) {

@@ -1,7 +1,6 @@
 import { CHANGE_MESSAGES, CHANGE_CHATS } from "./actionTypes";
 import { db } from "../service/firebase";
 
-
 const getPayloadFromSnapshot = (snapshot) => {
     return { chatId: snapshot.key, messages: snapshot.val() }
 }

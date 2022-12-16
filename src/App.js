@@ -1,5 +1,6 @@
 import './App.css';
 import ChatsPage from './pages/Chats';
+import Chats2Page from './pages/Chats_2';
 import HomePage from './pages/Home';
 import { Route, Routes } from 'react-router-dom';
 import Profile from './pages/Profile';
@@ -17,6 +18,10 @@ function App() {
         <Route exact path='/home/' element={<HomePage />} />
         <Route path='/chats/:chatId' element={<ChatsPage />} />
         <Route path='/chats/' element={<ChatsPage />} />
+        
+        <Route path='/chats-2/:chatId' element={<Chats2Page />} />
+        <Route path='/chats-2/' element={<Chats2Page />} />
+        
         <Route path='/profile/' element={<Profile />} />
         <Route path={'/register'} element={<RegisterPage />} />
           <Route path={'/'} element={<LoginPage />} />
